@@ -7,31 +7,27 @@ public:
 
     void quickSort(vector<int>& nums, int l, int r) {
         if( l < r ) {
-            int mid = partition(nums, l, r);
+            int mid = apartion(nums, l, r);
             quickSort(nums, l, mid-1);
             quickSort(nums, mid+1, r);
         }
     }
 
-    int partition(vector<int>& nums, int l, int r) {
-        int thor = nums[l];
-        int i = l+1;
-        int j = r;
+    int apartion(vector<int>& nums, int l, int r) {
+        int thro = nums[l];
 
-        while(1) {
-            while( i<=j && nums[i] <= thor ) {
-                i++;
+        while( l < r ) {
+            while( r>l && nums[r] >= thro ) {
+                r--;
             }
-            while( i<=j && nums[j] >= thor ) {
-                j--;
+            nums[l] = nums[r];
+            while( r>l && nums[l] <= thro ) {
+                l++;
             }
-            if( i>=j ) {
-                break;
-            }
-            swap( nums[i], nums[j] );
+            nums[r] = nums[l];
         }
 
-        swap(nums[l], nums[j]);
-        return j;
+        nums[l] = thro;
+        return l;       
     }
 };
