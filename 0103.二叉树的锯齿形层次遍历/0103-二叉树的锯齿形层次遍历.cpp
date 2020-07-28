@@ -17,7 +17,6 @@ public:
         deque<TreeNode*> dq;
         dq.push_back(root);
         bool zigzag = true;
-        TreeNode* tmp = nullptr;
 
         while( !dq.empty() ) {
             int n = dq.size();
@@ -37,13 +36,21 @@ public:
         if (zigzag) { // 前取后放
             node = dq.front();
             dq.pop_front();
-            if (node->left) dq.push_back(node->left); // 下一层顺序存放至尾
-            if (node->right) dq.push_back(node->right);                
+            if( node->left ) {
+                dq.push_back(node->left);//下一层从back开始取, left 在最后取到;
+            }
+            if( node->right ) {
+                dq.push_back(node->right);
+            }
         } else { // 后取前放
             node = dq.back();
             dq.pop_back();
-            if (node->right) dq.push_front(node->right); // 下一层逆序存放至首
-            if (node->left) dq.push_front(node->left);
+            if( node->right ) {
+                dq.push_front(node->right);//下一层从front开始取，right 在最后取到;
+            }
+            if( node->left ) {
+                dq.push_front(node->left);
+            }
         }
         return node->val;
     }

@@ -8,29 +8,35 @@
  * };
  */
 class BSTIterator {
-    stack<TreeNode*> st;
+public:
+    stack<TreeNode*> st; 
 public:
     BSTIterator(TreeNode* root) {
         leftDFS(root);
     }
-
-    void leftDFS(TreeNode* root) {
-        while (root) {
-            st.push(root);
-            root = root->left;
-        }
-    }
-
+    
+    /** @return the next smallest number */
     int next() {
-        TreeNode* root = st.top(); 
+        TreeNode* node = st.top();
         st.pop();
-        leftDFS(root->right);
-        return root->val;
+        leftDFS(node->right);
+        return node->val;
     }
-
+    
+    /** @return whether we have a next smallest number */
     bool hasNext() {
         return !st.empty();
     }
+
+    void leftDFS(TreeNode* root) {
+        if( !root ) {
+            return;
+        }
+
+        st.push(root);
+        leftDFS(root->left);
+    }
+
 };
 
 /**
