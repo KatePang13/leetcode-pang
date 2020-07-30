@@ -1,24 +1,19 @@
 class Solution {
 public:
     int fib(int N) {
-        if( N < 1 ){
-            return 0;
+        int f[2] = {0, 1};
+        int tmp = 0;
+
+        if( N < 2 ) {
+            return f[N];
         }
 
-        if( N == 1 ){
-            return 1;
+        for( int i=2; i<=N; i++ ) {
+            tmp = f[1];
+            f[1] = f[0] + f[1];
+            f[0] = tmp;
         }
 
-        int fb1 = 0;
-        int fb2 = 1;
-        int fb = 0;
-        for( int i =2; i< N+1; i++ ){
-            fb = fb1 + fb2;
-            fb1 = fb2;
-            fb2 = fb;
-        }
-
-        return fb;
-
+        return f[1];
     }
 };
