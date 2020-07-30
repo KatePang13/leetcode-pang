@@ -8,10 +8,11 @@
  * };
  */
 class Solution {
-private:
-    int maxSum = INT_MIN;
+public:
+    int maxSum;
 public:
     int maxPathSum(TreeNode* root) {
+        maxSum = INT_MIN;
         dfs(root);
         return maxSum;
     }
@@ -21,10 +22,10 @@ public:
             return 0;
         }
 
-        int leftSum = max(dfs(root->left), 0);
-        int rightSum = max(dfs(root->right),0);
-        int sum = root->val + leftSum + rightSum;
-        maxSum = max(maxSum, sum);
-        return root->val + max(leftSum, rightSum);
+        int left = dfs(root->left);
+        int right = dfs(root->right);
+        maxSum = max( maxSum, root->val+left+right);
+        return  max(0, root->val + max(left, right));
     }
+
 };
