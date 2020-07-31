@@ -32,13 +32,16 @@ public:
 
     int getPeakIndex(MountainArray& mountainArr) {
         int n = mountainArr.length();
-        int l = 0;
-        int r = n-1;
+        int l = 1;
+        int r = n-2;
         while(l<=r) {
-            int mid = l+ (r-l+1)/2;
-            if( mountainArr.get(mid) > mountainArr.get(mid-1) && mountainArr.get(mid) > mountainArr.get(mid+1) ) {
+            int mid = l+ (r-l)/2;
+            int cur = mountainArr.get(mid);
+            int prev =  mountainArr.get(mid-1);
+            int next =  mountainArr.get(mid+1);
+            if( cur>prev && cur>next ) {
                 return mid;
-            } else if( mountainArr.get(mid) > mountainArr.get(mid-1) ) {
+            } else if( cur>prev ) {
                 l = mid+1;
             } else {
                 r = mid-1;
@@ -50,17 +53,19 @@ public:
     int search(MountainArray& mountainArr, int target, int l, int r, bool up) {
         while( l<=r ) {
             int mid = l + (r-l)/2;
-            if( mountainArr.get(mid) == target ) {
+            int cur = mountainArr.get(mid);
+
+            if( cur == target ) {
                 return mid;
             }
             if( up ) {
-                if( mountainArr.get(mid) < target ) {
+                if( cur < target ) {
                     l = mid+1;
                 } else {
                     r = mid-1;
                 }
             } else {
-                if( mountainArr.get(mid) < target ) {
+                if( cur < target ) {
                     r = mid-1;
                 } else {
                     l = mid +1;
