@@ -1,9 +1,9 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int target) {
+    bool search(vector<int>& nums, int target) {
         int n = nums.size();
         if( n == 0 ) {
-            return -1;
+            return false;
         }
         int l = 0;
         int r = n-1;
@@ -17,18 +17,23 @@ public:
                 } else {
                     r = mid - 1;
                 }
-            } else {
+            } else if( nums[mid] > nums[r] ) {
                 if( nums[l] <= target && target <= nums[mid-1] ) {
                     r = mid - 1;
                 } else {
                     l = mid;
                 }
+            } else {
+                if( nums[r] == target ) {
+                    return true;
+                }
+                r--;
             }
         }
 
         if( nums[l] == target ) {
-            return l;
+            return true;
         }
-        return -1;
+        return false;
     }
 };

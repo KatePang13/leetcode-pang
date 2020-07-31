@@ -2,45 +2,40 @@ class Solution {
 public:
     bool isPalindrome(string s) {
         int n = s.length();
-        if( n<2 ) {
-            return true;
-        }
-
         int l = 0;
         int r = n-1;
-
         while( l < r ) {
-            char lchar = filter(s[l]);
-            if ( ' ' == lchar ) {
+            char head = s[l];
+            char tail = s[r];
+            if(!validChar(head)) {
                 l++;
                 continue;
             }
-            char rchar = filter(s[r]);
-            if( ' ' == rchar ) {
+            if(!validChar(tail)) {
                 r--;
                 continue;
             }
-
-            if( lchar != rchar ) {
+            if( head != tail ) {
                 return false;
             }
-
             l++;
             r--;
         }
-
         return true;
     }
 
-    char filter(char c) {
-        if( ('0' <= c && c<='9') ||  ('a' <=c && c<='z') ) {
-            return c;
+    bool validChar(char& ch) {
+        if( '0' <= ch && ch <= '9' ) {
+            return true;
         }
-
-        if('A' <= c && c<= 'Z') {
-            return c-'A' + 'a';
+        if( 'a' <= ch && ch <= 'z' ) {
+            return true;
         }
-
-        return ' ';
+        if( 'A' <= ch && ch <= 'Z' ) {
+            ch -= 'A' - 'a';
+            return true;
+        }
+        return false;
     }
+
 };
