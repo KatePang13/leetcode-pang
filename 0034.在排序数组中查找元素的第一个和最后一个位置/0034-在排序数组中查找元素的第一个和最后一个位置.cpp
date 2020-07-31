@@ -2,40 +2,52 @@ class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         int n = nums.size();
-        int index = searchBinary(nums, target) ;
-        if( index == -1 ) {
+        if( n == 0 ) {
             return {-1, -1};
         }
-
-        int left = index-1;
-        int right = index+1;
-        while( left >=0 && nums[left] == nums[index] ) {
-            left--;
+ 
+        int begIdx = searchBeginIndex(nums, target);
+        if( begIdx == -1 ) {
+            return {-1, -1};
         }
-
-        while( right<n && nums[right] == nums[index] ) {
-            right++;
-        }
-
-        return {left+1, right-1};
+        int endIdx = searchEndIndex(nums, target);
+        return {begIdx, endIdx};
     }
 
-    int searchBinary(vector<int>& nums, int target) {
+    int searchBeginIndex(vector<int>& nums, int target) {
         int n = nums.size();
-        int left = 0;
-        int right = n-1;
-
-        while( left <= right ) {
-            int mid = left + (right-left+1)/2;
-            if( nums[mid] == target ) {
-                return mid;
-            }
-
+        int l = 0;
+        int r = n-1;
+        while( l < r ) {
+            int mid = l+ (r-l)/2;
+            // [..,mid] 都是 < target, 砍掉; 
             if( nums[mid] < target ) {
-                left = mid + 1;
+                l = mid +1;
             } else {
-                right = mid - 1;
+                r = mid;
             }
+        }
+        if( nums[l] == target ) {
+            return l;
+        }
+        return -1;
+    }
+
+    int searchEndIndex(vector<int>& nums, int target) {
+        int n = nums.size();
+        int l = 0;
+        int r = n-1;
+        while( l < r ) {
+            int mid = l + (r-l+1)/2;
+            // [mid,..] 都是> target, 砍掉; 
+            if( nums[mid] > target ) {
+                r = mid-1;
+            } else {
+                l = mid;
+            }
+        }
+        if( nums[l] == target ) {
+            return l;
         }
         return -1;
     }
