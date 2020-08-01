@@ -1,23 +1,22 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        if( s.size() == 0 ){
-            return 0;
-        }
-
-        unordered_set<char> cache;
-        int ans = 0;
+        int sLen = s.length();
+        int maxLen = 0;
+        map<char, int> freq;
         int left = 0;
+        int right = 0;
 
-        for( int i =0; i< s.size(); i++ ){
-            while( cache.find(s[i]) != cache.end() ){
-                cache.erase(s[left]);
+        while( right < sLen ) {
+            while( freq[s[right]] != 0 ) {
+                freq[s[left]]--;
                 left++;
             }
-            ans = max( ans, i-left+1 );
-            cache.insert(s[i]);
+            freq[s[right]]++;
+            right++;
+            maxLen = max(maxLen, right-left);
         }
 
-        return ans;
+        return maxLen;
     }
 };
