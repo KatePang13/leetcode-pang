@@ -5,26 +5,29 @@ public:
         if( n == 0 ) {
             return {-1, -1};
         }
- 
-        int begIdx = searchBeginIndex(nums, target);
-        if( begIdx == -1 ) {
+        int start = 0;
+        int end = n-1;
+        int firstIndex = getFirstTargetIndex(nums, start, end, target);
+        if( firstIndex == -1 ) {
             return {-1, -1};
         }
-        int endIdx = searchEndIndex(nums, target);
-        return {begIdx, endIdx};
+        int lastIndex = getLastTargetIndex(nums, start, end, target);
+        return {firstIndex, lastIndex};
     }
 
-    int searchBeginIndex(vector<int>& nums, int target) {
-        int n = nums.size();
-        int l = 0;
-        int r = n-1;
+    int getFirstTargetIndex(vector<int>& nums, int& start, int& end, int target) {
+        int l = start;
+        int r = end;
         while( l < r ) {
-            int mid = l+ (r-l)/2;
-            // [..,mid] 都是 < target, 砍掉; 
+            int mid = l + (r-l)/2;
             if( nums[mid] < target ) {
-                l = mid +1;
+                l = mid+1;
+                start = l;
             } else {
                 r = mid;
+                if( nums[mid] != target ) {
+                    end = r;
+                }
             }
         }
         if( nums[l] == target ) {
@@ -33,14 +36,12 @@ public:
         return -1;
     }
 
-    int searchEndIndex(vector<int>& nums, int target) {
-        int n = nums.size();
-        int l = 0;
-        int r = n-1;
+    int getLastTargetIndex( vector<int>& nums, int start, int end, int target) {
+        int l = start;
+        int r = end;
         while( l < r ) {
-            int mid = l + (r-l+1)/2;
-            // [mid,..] 都是> target, 砍掉; 
-            if( nums[mid] > target ) {
+            int mid = l+(r-l+1)/2;;
+            if( nums[mid] > target) {
                 r = mid-1;
             } else {
                 l = mid;
@@ -51,5 +52,4 @@ public:
         }
         return -1;
     }
-
 };
