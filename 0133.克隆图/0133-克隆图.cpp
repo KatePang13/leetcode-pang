@@ -24,23 +24,19 @@ public:
 
 class Solution {
 public:
-    map<Node*, Node*> memo;
+    map<Node*, Node*> memo;    
 public:
     Node* cloneGraph(Node* node) {
-        if(!node) {
-            return node;
+        if( node == nullptr ) {
+            return nullptr; 
         }
 
         if( memo.find(node) != memo.end() ) {
             return memo[node];
         }
 
-        Node* newNode = new Node( node->val );
+        Node* newNode = new Node(node->val);
         memo[node] = newNode;
-
-        //for( Node* neighbor : node->neighbors ) {
-        //    newNode->neighbors.push_back( cloneGraph(neighbor) );
-        //}
 
         int n = node->neighbors.size();
         newNode->neighbors.resize(n);
