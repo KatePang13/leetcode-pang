@@ -1,27 +1,25 @@
 class Solution {
 public:
     bool isValid(string s) {
-        bool ans = true;
-        map< char, int > parantheseMap = { {'(',1}, {')',-1}, {'[',2}, {']',-2}, {'{',3}, {'}',-3} };
-        stack<int> help;
+        map<char, int> dict= { {'(',1},{')',-1}, {'{', 2},{'}', -2}, {'[',3}, {']', -3}  };
+        stack<int> st;
+        st.push(0);
 
-        for( auto c: s ){
-            if( parantheseMap[c] >0 ){
-                help.push( parantheseMap[c] );
-            }else{
-                if( help.empty() ){
-                    ans = false;
-                    break;
-                }
-                else if( (help.top() + parantheseMap[c]) != 0 ){
-                    ans = false;
-                    break;
-                }else{
-                    help.pop();
+        for( char c : s ) {
+            if( dict[c] > 0 ) {
+                st.push(dict[c]);
+            } else {
+                if( st.top() + dict[c] != 0 ) {
+                    return false;
+                } else {
+                    st.pop();
                 }
             }
         }
 
-        return ans && help.empty();
+        if( st.top() == 0 ) {
+            return true;
+        }
+        return false;
     }
 };
