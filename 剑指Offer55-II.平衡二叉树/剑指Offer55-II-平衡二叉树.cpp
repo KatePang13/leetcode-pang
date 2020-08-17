@@ -8,24 +8,26 @@
  * };
  */
 class Solution {
-public:
-    bool vaild;
+public:    
+    bool isVaild;
 public:
     bool isBalanced(TreeNode* root) {
-        vaild = true;
+        isVaild = true;
         dfs(root);
-        return vaild;
+        return isVaild;    
     }
 
     int dfs(TreeNode* root) {
         if( !root ) {
-            return 0;
+            return true;
         }
-        int leftDepth = dfs(root->left);
-        int rightDepth = dfs(root->right);
-        if( abs( leftDepth-rightDepth ) > 1 ) {
-            vaild = false;
+
+        int leftHight = dfs(root->left);
+        int rightHeight = dfs(root->right);
+        if( abs(leftHight-rightHeight) > 1 ) {
+            isVaild =false;
         }
-        return max(leftDepth, rightDepth) + 1;
+
+        return max(leftHight, rightHeight) + 1;
     }
 };
