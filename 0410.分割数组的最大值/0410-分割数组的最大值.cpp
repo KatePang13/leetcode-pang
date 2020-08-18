@@ -1,25 +1,61 @@
 class Solution {
 public:
     int splitArray(vector<int>& nums, int m) {
+        //理想情况下，均等划分成m个连续子数组，各自和的最大值最小;
         int n = nums.size();
-        vector<vector<long long>> f(n+1, vector<long long>(m+1, LLONG_MAX));
-        vector<long long> prevSum(n+1);
-        f[0][0] = 0;
-        long long tmp = 0;
-
-        for( int i=0; i<n; i++ ) {
-            prevSum[i+1] =  prevSum[i] + nums[i];  
+        long sum = 0;
+        int maxNum = 0;
+        for( int& num : nums ) {
+            maxNum = max( maxNum, num);
+            sum += num;
         }
 
-        for( int i=1; i<=n; i++ ) {
-            for( int j=1; j<= min(i, m); j++ ) {
-                for( int k=0; k<i; k++) {
-                    tmp = max( f[k][j-1], prevSum[i] - prevSum[k]);
-                    f[i][j] = min( tmp, f[i][j]);
-                }
+        long left = sum/m;
+        long right = sum;
+        int ans = 0;
+
+        cout << left << ',' << right << endl;
+
+        while( left <= right ) {
+            long mid = left + (right-left)/2;
+            if( check(nums, m, mid) ) {
+                ans = mid;
+                right = mid-1;
+            } else {
+                left = mid+1;
             }
         }
 
-        return f[n][m];
+        return ans;
+    }
+
+    bool check(vector<int>& nums, int m, long maxSubSum) {
+        cout << maxSubSum << endl;
+        int n = nums.size();
+        int subCount = 0;
+        int i = 0;
+
+        while( i<n ) {
+            int j = i;
+            long subSum = 0;
+            for( ; j<n; j++ ) {
+                subSum += nums[j];
+                if( subSum > maxSubSum ) {
+                    break;
+                }
+            }
+
+            cout << i << '|' << j << ':' << subSum << endl;
+
+            subCount++;
+            i = j;
+
+            if( subCount == m && i != n ) {
+                return false;
+            }    
+            
+        }
+
+        return true;
     }
 };
