@@ -1,36 +1,29 @@
 class Solution {
 public:
+    map<char, string> dict = { {'2', "abc"}, {'3', "def"}, {'4', "ghi"}, {'5', "jkl"}, {'6', "mno"}, {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}};
+    vector<string> ans;
+public:
     vector<string> letterCombinations(string digits) {
-        vector<string> res;
-        string buf;
-        map<char, vector<char>> dict = 
-        {{'2', {'a', 'b', 'c'}}
-        ,{'3', {'d', 'e', 'f'}}
-        ,{'4', {'g', 'h', 'i'}}
-        ,{'5', {'j', 'k', 'l'}}
-        ,{'6', {'m', 'n', 'o'}}
-        ,{'7', {'p', 'q', 'r','s'}}
-        ,{'8', {'t', 'u', 'v'}}
-        ,{'9', {'w', 'x', 'y', 'z'}} };
-        
-        if( digits.size() == 0 ) {
-            return res;
+        if( digits.length() == 0 ) {
+            return {};
         }
-        dfs( digits,dict, res, buf, 0);
-
-        return res;
+        bacetrace(digits, "", 0 );
+        return ans;
     }
 
-    void dfs( string digits, map<char, vector<char>>& dict, vector<string>& res, string& buf, int index ) {
-        if( index == digits.size() ) {
-            res.push_back( buf );
+    void bacetrace(string digits, string tmp, int i ) {
+        if( i == digits.length() ) {
+            ans.push_back(tmp);
             return;
         }
 
-        for( char ch : dict[digits[index]] ) {
-            buf.push_back(ch);
-            dfs(digits, dict, res, buf, index+1);
-            buf.erase(buf.end()-1);
+        cout << digits[i] << endl;
+        cout << dict[digits[i]] << endl;
+
+        for( auto c : dict[digits[i]] ) {
+            cout << c << endl;
+            string newTmp = tmp + c;
+            bacetrace(digits, newTmp, i+1 );
         }
     }
 };
