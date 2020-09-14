@@ -1,47 +1,54 @@
 class UnionFind {
-private:
-    vector<int> parent;
+    vector<int> parents;
 
 public:
-    UnionFind() {
-        parent.resize(26);
-        iota(parent.begin(), parent.end(), 0);
-    }
-
-    int find(int index) {
-        if (index == parent[index]) {
-            return index;
+    UnionFind(int n) : parents(n) {
+        for( int i=0; i<n; i++ ) {
+            parents[i] = i;
         }
-        parent[index] = find(parent[index]);
-        return parent[index];
+    };
+
+    void unite( int x, int y ) {
+        int px = find(x);
+        int py = find(y);
+        if( px != py ) {
+            parents[px] = py;
+        }
     }
 
-    void unite(int index1, int index2) {
-        parent[find(index1)] = find(index2);
+    int find( int x ) {
+        while( x != parents[x] ) {
+            x = parents[x];
+        }
+        return x;
     }
 };
 
 class Solution {
 public:
     bool equationsPossible(vector<string>& equations) {
-        UnionFind uf;
-        for( const string& str: equations ) {
-            if( '=' == str[1] ) {
-                int index1 = str[0] - 'a';
-                int index2 = str[3] - 'a';
-                uf.unite(index1, index2);
+        UnionFind uf (26);
+
+        for( auto& equation : equations ) {
+            if( equation[1] == '=' ) {
+                int x = equation[0] - 'a';
+                int y = equation[3] - 'a';
+                cout << x << ',' << y << endl;
+                uf.unite( x, y );
             }
         }
 
-        for( const string& str: equations ) {
-            if( '!' == str[1] ) {
-                int index1 = str[0] - 'a';
-                int index2 = str[3] - 'a';
-                if( uf.find(index1) == uf.find(index2) ) {
+        for( auto& equation : equations ) {
+            if( equation[1] == '!' ) {
+                int x = equation[0] - 'a';
+                int y = equation[3] - 'a';
+                int px = uf.find(x);
+                int py = uf.find(y);
+                if( px == py ) {
                     return false;
                 }
             }
-        }
+        } 
 
         return true;
     }
