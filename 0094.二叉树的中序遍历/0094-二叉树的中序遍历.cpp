@@ -8,22 +8,20 @@
  * };
  */
 class Solution {
+    vector<int> ans;
 public:
-
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        inorderTravel(root, ans);
+        dfs(root);
         return ans;
     }
 
-    void inorderTravel(TreeNode* root, vector<int>& vec){
-        if( !root ){
-            return ;
+    void dfs(TreeNode* root) {
+        if( !root ) {
+            return;
         }
 
-        inorderTravel(root->left, vec);
-        vec.push_back( root->val);
-        inorderTravel(root->right, vec);
+        dfs(root->left);
+        ans.push_back(root->val);
+        dfs(root->right);
     }
-
 };
