@@ -1,36 +1,36 @@
 class Solution {
 public:
+    vector<vector<int>> ans;
+public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector<vector<int>> res;
-        vector<int> buf;
-        vector<int> visited(nums.size());
-        dfs( nums, res, buf, visited );
-        return res;
+        deque<int> path;
+        int n  = nums.size();
+        vector<bool> vis(n);
+        backtrace( nums, vis, n, path, 0);
+        return ans;
     }
 
-    void dfs(vector<int>& nums, vector<vector<int>>& res, vector<int>& buf, vector<int>& visited) {
-        if( buf.size() == nums.size() ) {
-            res.push_back(buf);
+    void backtrace(vector<int>& nums, vector<bool> vis, int n, deque<int>& path, int index) {
+        //cout << i << nums[i] << endl;
+        if( index == n ) {
+            ans.emplace_back( path.begin(), path.end() );
             return;
         }
 
-        //记录在该阶段中，某个元素值是否已经被使用过，避免出现重复;例如 1在第一位使用了，1就不能在第一位出现第二次;
-        map<int, int> memo;
-
-        for( int i=0; i<nums.size(); i++ ) {
-            if( visited[i] != 0 ) {
+        set<int> memo;
+        for( int i=0; i<n; i++ ) {
+            if( vis[i] ) {
                 continue;
             }
-            if( memo.find(nums[i]) != memo.end() ) {
+            if( memo.count(nums[i]) ) {
                 continue;
             }
-
-            memo[nums[i]] = 1;
-            visited[i] = 1;
-            buf.push_back(nums[i]);
-            dfs(nums, res, buf, visited);
-            buf.erase(buf.end()-1);
-            visited[i] = 0;
+            vis[i] = true;
+            memo.insert(nums[i]);
+            path.push_back(nums[i]);
+            backtrace(nums, vis, n, path, index+1);
+            path.pop_back();
+            vis[i] = false;
         }
     }
 };
