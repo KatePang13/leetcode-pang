@@ -9,23 +9,24 @@
  */
 class Solution {
 public:
+    int sum;
+public:
     int sumOfLeftLeaves(TreeNode* root) {
-        int sum = 0;
-        dfs(root, sum);
+        sum = 0;
+        dfs(root, false);
         return sum;
     }
 
-    void dfs( TreeNode* root, int& sum) {
+    void dfs(TreeNode* root, bool left) {
         if( !root ) {
             return;
         }
 
-        if( root->left && !root->left->left && !root->left->right  ) {
-            sum += root->left->val;
-        }
+        if( !root->left && !root->right && left ) {
+            sum += root->val;
+        } 
 
-        dfs(root->left, sum);
-        dfs(root->right, sum);
+        dfs( root->left, true );
+        dfs( root->right, false);
     }
-
 };
