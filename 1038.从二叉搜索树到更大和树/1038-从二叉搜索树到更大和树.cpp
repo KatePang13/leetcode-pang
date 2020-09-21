@@ -9,13 +9,12 @@
  */
 class Solution {
 public:
-    int val;
+    int greater;
 public:
-    TreeNode* convertBST(TreeNode* root) {
+    TreeNode* bstToGst(TreeNode* root) {
         if( !root ) {
             return NULL;
         }
-
         dfs(root);
         return root;
     }
@@ -26,8 +25,8 @@ public:
         }
 
         dfs(root->right);
-        val += root->val;
-        root->val = val;
+        greater += root->val;
+        root->val = greater;
         dfs(root->left);
     }
 };
