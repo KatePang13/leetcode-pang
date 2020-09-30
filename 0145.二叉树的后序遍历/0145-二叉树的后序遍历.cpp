@@ -9,20 +9,32 @@
  */
 class Solution {
 public:
-
-    void travel( TreeNode* root, vector<int>& buf ){
-        if( root == NULL ){
-            return ;
-        }
-
-        travel( root->left, buf );
-        travel( root->right, buf);
-        buf.push_back( root->val );
-    }
-
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> ans;
-        travel( root, ans );
-        return ans;        
+        stack<TreeNode*> s;
+        if( !root ) {
+            return ans;
+        }
+
+        s.push(root);
+        while(!s.empty()) {
+            TreeNode* node = s.top();
+            s.pop();
+            if( nullptr != node ) {
+                s.push(node);
+                s.push(nullptr);
+                if(node->right) {
+                    s.push(node->right);
+                }
+                if(node->left) {
+                    s.push(node->left);            
+                }
+            }else {
+                ans.push_back(s.top()->val);
+                s.pop();
+            }
+        }
+
+        return ans;
     }
 };
