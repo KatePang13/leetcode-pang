@@ -18,8 +18,8 @@ public:
 
         int i=1;
         int j=1;
-        while( i<nn && j< nt ) {
-            if( name[i] == typed[j] ) {
+        while( j< nt ) {
+            if( i<nn && name[i] == typed[j] ) {
                 i++;
                 j++;
             } else if( name[i-1] == typed[j] ) {
@@ -31,15 +31,6 @@ public:
 
         if( i < nn ) {
             return false;
-        }
-
-        //return true;
-
-        while( j < nt ) {
-            if( name[nn-1] != typed[j] ) {
-                return false;
-            }
-            j++;
         }
 
         return true;
