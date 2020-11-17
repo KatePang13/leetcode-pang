@@ -24,7 +24,6 @@ public:
         int idx = 1;
 
         while( ptr ) {
-            cout << ptr->val << endl;
             if( idx %2 ) {
                 even->next = ptr;
                 even = even->next;
