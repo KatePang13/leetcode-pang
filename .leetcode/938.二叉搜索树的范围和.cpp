@@ -38,9 +38,12 @@ public:
         if( low <= root->val && root->val <= high ) {
             sum += root->val;
         }
-
-        dfs(root->left);
-        dfs(root->right);
+        if( low < root->val ) {
+            dfs(root->left);
+        }
+        if( high > root->val ) {
+            dfs(root->right);
+        }
     }
 };
 // @lc code=end
